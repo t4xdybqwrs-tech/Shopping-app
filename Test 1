@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Comparator PWA</title>
+<style>
+body { font-family: Arial, sans-serif; padding: 20px; }
+input, button { padding: 10px; margin: 5px 0; width: 100%; }
+h2 { margin-top: 20px; }
+.product { border-bottom: 1px solid #ccc; padding: 10px 0; }
+</style>
+</head>
+<body>
+<h1>Shopping Price Comparator</h1>
+<input type="text" id="productUrl" placeholder="Enter product URL">
+<button onclick="addProduct()">Add Product</button>
+
+<h2>Shopping List</h2>
+<div id="shoppingList"></div>
+
+<h2>Total Best Price: $<span id="total">0.00</span></h2>
+
+<script>
+// Shopping list array
+let shoppingList = [];
+
+// Fake price search (replace with API calls later)
+function fakePriceSearch(productName) {
+  return [
+    { site: 'Amazon', price: (Math.random()*100).toFixed(2), link: '#' },
+    { site: 'eBay', price: (Math.random()*100).toFixed(2), link: '#' },
+    { site: 'Walmart', price: (Math.random()*100).toFixed(2), link: '#' }
+  ];
+}
+
+// Add product
+function addProduct() {
+  const url = document.getElementById('productUrl').value;
+  if (!url) return alert('Enter a URL');
+
+  const productName = url.split('/').pop().replace(/[-_]/g, ' ');
+  const prices = fakePriceSearch(productName);
+
+  shoppingList.push({ name: productName, prices });
+  document.getElementById('productUrl').value = '';
+  renderList();
+}
+
+// Render shopping list
+function renderList() {
+  const listDiv = document.getElementById('shoppingList');
+  listDiv.innerHTML = '';
+  let total = 0;
+
+  shoppingList.forEach(item => {
+    const bestPrice = Math.min(...item.prices.map(p => parseFloat(p.price)));
+    total += bestPrice;
+
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'product';
+    itemDiv.innerHTML = `<strong>${item.name}</strong><br>` +
+      item.prices.map(p => `${p.site}: $${p.price}`).join('<br>');
+    listDiv.appendChild(itemDiv);
+  });
+
+  document.getElementById('total').innerText = total.toFixed(2);
+}
+</script>
+</body>
+</html>
+
+{
+  "name": "Shopping Comparator",
+  "short_name": "ShopCompare",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
