@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shopping Comparator PWA</title>
+
+<!-- PWA manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 <style>
 body { font-family: Arial, sans-serif; padding: 20px; }
 input, button { padding: 10px; margin: 5px 0; width: 100%; }
@@ -22,10 +28,10 @@ h2 { margin-top: 20px; }
 <h2>Total Best Price: $<span id="total">0.00</span></h2>
 
 <script>
-// Shopping list array
+// Shopping list
 let shoppingList = [];
 
-// Fake price search (replace with API calls later)
+// Fake price search (replace with real API later)
 function fakePriceSearch(productName) {
   return [
     { site: 'Amazon', price: (Math.random()*100).toFixed(2), link: '#' },
@@ -47,7 +53,7 @@ function addProduct() {
   renderList();
 }
 
-// Render shopping list
+// Render list
 function renderList() {
   const listDiv = document.getElementById('shoppingList');
   listDiv.innerHTML = '';
@@ -69,7 +75,6 @@ function renderList() {
 </script>
 </body>
 </html>
-
 {
   "name": "Shopping Comparator",
   "short_name": "ShopCompare",
@@ -85,7 +90,3 @@ function renderList() {
     }
   ]
 }
-<link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
